@@ -21,6 +21,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
+    Toolbar toolbar;
 
     ArrayAdapter<String> arrayAdapter;
     FloatingActionButton add;// = findViewById(R.id.floatingActionButton);
@@ -61,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
 
         //list_of_profiles = db.profileDao().getAll();
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
@@ -70,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
+        toolbar.setSubtitle(profileArray.length + " profiles, by surname");
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {//open dialog fragment
@@ -95,6 +96,7 @@ public class MainActivity extends AppCompatActivity {
         String[] formatted_data = new String[profileArray.length];
         //MenuItem toggle = findViewById(R.id.toggleProfileView);
         if(viewToggle == false) {
+            toolbar.setSubtitle(profileArray.length + " profiles, by surname");
             item.setTitle(byID);
             profileArray = sort_names(profileArray);
             for (int i = 0; i < profileArray.length; i++) {
@@ -103,6 +105,7 @@ public class MainActivity extends AppCompatActivity {
         }
         else
         {
+            toolbar.setSubtitle(profileArray.length + " profiles, by student ID");
             item.setTitle(byName);
             profileArray = sort_id_numbers(profileArray);
             for (int i = 0; i < profileArray.length; i++) {
