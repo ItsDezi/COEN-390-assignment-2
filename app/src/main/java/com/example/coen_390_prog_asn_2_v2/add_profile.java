@@ -10,6 +10,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.coen_390_prog_asn_2_v2.database.databaseClass;
 import com.example.coen_390_prog_asn_2_v2.database.entity.Profile;
@@ -72,7 +73,7 @@ public class add_profile extends DialogFragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view  = inflater.inflate(R.layout.fragment_add_profile, container);
+        View view = inflater.inflate(R.layout.fragment_add_profile, container);
         first_name = view.findViewById(R.id.dialogFirstName);
         last_name = view.findViewById(R.id.dialogLastName);
         student_id = view.findViewById(R.id.dialogStudentID);
@@ -90,26 +91,45 @@ public class add_profile extends DialogFragment {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                int ID = Integer.valueOf(student_id.getText().toString());
+                String ID = student_id.getText().toString();
                 String FN = first_name.getText().toString();
                 String LN = last_name.getText().toString();
                 double GPA = Double.valueOf(gpa.getText().toString());
-
                 //perform checks for valid entries
+                if (FN == "" || LN == "") {
+                    Toast.makeText(getContext(), "Fields must not be empty.", Toast.LENGTH_SHORT).show();
+                    return;
+                } else if (GPA < 0 || GPA > 4.3) {
+                    Toast.makeText(getContext(), "GPA must be a value between 0 and 4.3.", Toast.LENGTH_SHORT).show();
+                    return;
+                } else if (!idLengthCheck(ID)) {
+                    Toast.makeText(getContext(), "ID must be 8 digits.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
 
-                Profile new_prof = new Profile(ID,FN, LN, GPA);
+                Profile new_prof = new Profile(Integer.valueOf(ID), FN, LN, GPA);
 
                 databaseClass db = databaseClass.getInstance(getContext());
                 db.profileDao().insertAll(new_prof);
 
-                ((MainActivity)requireActivity()).profileArray = db.profileDao().getAll().toArray(new Profile[0]);
-                ((MainActivity)requireActivity()).arrayAdapter.notifyDataSetChanged();
-                ((MainActivity)requireActivity()).populateList();
+                ((MainActivity) requireActivity()).profileArray = db.profileDao().getAll().toArray(new Profile[0]);
+                ((MainActivity) requireActivity()).arrayAdapter.notifyDataSetChanged();
+                ((MainActivity) requireActivity()).populateList();
                 dismiss();
 
             }
         });
         return view;
         //return inflater.inflate(R.layout.fragment_add_profile, container, false);
+    }
+
+    public boolean idLengthCheck(String num) {
+            int count = num.length();
+
+            if (count == 8) {
+            return true;
+        } else {
+            return false;
+        }
     }
 }
