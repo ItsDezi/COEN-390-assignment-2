@@ -12,6 +12,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.example.coen_390_prog_asn_2_v2.database.databaseClass;
 import com.example.coen_390_prog_asn_2_v2.database.entity.Profile;
@@ -24,14 +25,15 @@ public class ProfileActivity extends AppCompatActivity {
     Toolbar toolbar;
 
     ArrayAdapter<String> arrayAdapter;
-
+    TextView lastName;
+    databaseClass db = databaseClass.getInstance(this);
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile);
 
-        databaseClass db = databaseClass.getInstance(getApplicationContext());
+        //databaseClass db = databaseClass.getInstance(getApplicationContext());
 
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
@@ -43,7 +45,16 @@ public class ProfileActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-
+        lastName = findViewById(R.id.name);
+        lastName.setText("");
+        Intent intent = getIntent();
+        int profileKey = intent.getIntExtra("profile_key", 0);
+        if (profileKey != 0)
+        {
+            db = databaseClass.getInstance(this);
+            Profile profile = db.profileDao().findById(profileKey);
+            lastName.setText(profile.ProfileKey);
+        }
     }
 
 

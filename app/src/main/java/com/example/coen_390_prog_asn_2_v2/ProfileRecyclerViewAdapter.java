@@ -1,5 +1,6 @@
 package com.example.coen_390_prog_asn_2_v2;
 
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -62,8 +63,17 @@ public class ProfileRecyclerViewAdapter extends RecyclerView.Adapter<ProfileRecy
             localDataSet = sort_id_numbers(localDataSet);
             holder.getLastName().setText(position+1 + ". " + localDataSet.get(position).ProfileKey);
             holder.getFirstName().setText("");
-
         }
+        holder.itemView.setOnClickListener(new View.OnClickListener(){
+            @Override
+            public void onClick(View v){
+                int pos = holder.getLayoutPosition();
+
+                Intent intent = new Intent(v.getContext(), ProfileActivity.class);
+                intent.putExtra("profile_key", localDataSet.get(pos).ProfileKey);
+                v.getContext().startActivity(intent);
+            }
+        });
     }
 
     @Override
