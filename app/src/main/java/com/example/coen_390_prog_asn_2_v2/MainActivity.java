@@ -3,6 +3,8 @@ package com.example.coen_390_prog_asn_2_v2;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -22,26 +24,30 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     Toolbar toolbar;
+    protected RecyclerView profileRecycleView;
+    protected ProfileRecyclerViewAdapter profileRecyclerViewAdapter;
+    public databaseClass db;
 
     ArrayAdapter<String> arrayAdapter;
     FloatingActionButton add;// = findViewById(R.id.floatingActionButton);
     boolean viewToggle = false;
     String byID = "By ID";
     String byName = " By Name";
-    ListView profilesList;
-    Profile[] profileArray;
-    List<Profile> list_of_profiles;
+    //ListView profilesList;
+    //Profile[] profileArray;
+   // List<Profile> list_of_profiles;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        profilesList = findViewById(R.id.profilesList);
+        //profilesList = findViewById(R.id.profilesList);
         add = findViewById(R.id.floatingActionButton);
-        databaseClass db = databaseClass.getInstance(getApplicationContext());
-        profileArray = db.profileDao().getAll().toArray(new Profile[0]);
+        db = databaseClass.getInstance(getApplicationContext());
+        setUpRecyclerView();
+        //profileArray = db.profileDao().getAll().toArray(new Profile[0]);
         //populateList();
-        String[] formatted_data = new String[profileArray.length];
+        /*String[] formatted_data = new String[profileArray.length];
         if(viewToggle == false) {
             profileArray = sort_names(profileArray);
             for (int i = 0; i < profileArray.length; i++) {
@@ -56,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         arrayAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, formatted_data);
-        profilesList.setAdapter(arrayAdapter);
+        profilesList.setAdapter(arrayAdapter);*/
         //db.profileDao().insertAll(new Profile(0,"Bohn","Zoe",3.24, 2023, 06, 26));
         //List profiles = db.profileDao().getAll();
 
@@ -71,7 +77,8 @@ public class MainActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-        toolbar.setSubtitle(profileArray.length + " profiles, by surname");
+        Profile [] p = db.profileDao().getAll().toArray(new Profile[0]);
+        toolbar.setSubtitle(p.length + " profiles, by surname");
         add.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {//open dialog fragment
@@ -79,7 +86,18 @@ public class MainActivity extends AppCompatActivity {
                 dialog.show(getSupportFragmentManager(), "addProfile");
             }
         });
+        //}
     }
+    protected void setUpRecyclerView()
+    {
+        List<Profile> profiles = db.profileDao().getAll();
+        LinearLayoutManager linearLayoutManager = new LinearLayoutManager(this);
+        profileRecyclerViewAdapter = new ProfileRecyclerViewAdapter(profiles);
+        profileRecycleView = findViewById(R.id.profileRecyclerView);
+        profileRecycleView.setLayoutManager(linearLayoutManager);
+        profileRecycleView.setAdapter(profileRecyclerViewAdapter);
+    }
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -91,9 +109,21 @@ public class MainActivity extends AppCompatActivity {
         if(item.getItemId() == R.id.toggleProfileView)
         {
             viewToggle = !viewToggle;
+            this.profileRecyclerViewAdapter.showByID = viewToggle;
+        }
+        profileRecyclerViewAdapter.notifyDataSetChanged();
+        Profile [] p = db.profileDao().getAll().toArray(new Profile[0]);
+        if(viewToggle == false)
+        {
+            item.setTitle(byID);
+            toolbar.setSubtitle(p.length + " profiles, by surname");
+        }
+        else {
+            item.setTitle(byName);
+            toolbar.setSubtitle(p.length + " profiles, by student ID");
 
         }
-        String[] formatted_data = new String[profileArray.length];
+        /*String[] formatted_data = new String[profileArray.length];
         //MenuItem toggle = findViewById(R.id.toggleProfileView);
         if(viewToggle == false) {
             toolbar.setSubtitle(profileArray.length + " profiles, by surname");
@@ -113,10 +143,10 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, formatted_data);
-        profilesList.setAdapter(arrayAdapter);
+        profilesList.setAdapter(arrayAdapter);*/
         return super.onOptionsItemSelected(item);
     }
-    Profile[] sort_names(Profile profiles[])
+    /*Profile[] sort_names(Profile profiles[])
     {
         Profile temp;
         for (int i = 0; i < profiles.length; i++) {
@@ -156,7 +186,7 @@ public class MainActivity extends AppCompatActivity {
         return profiles;
     }
 
-    void populateList()
+    /*void populateList()
     {
         String[] formatted_data = new String[profileArray.length];
         if(viewToggle == false) {
@@ -173,7 +203,7 @@ public class MainActivity extends AppCompatActivity {
             }
         }
         ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, formatted_data);
-        profilesList.setAdapter(arrayAdapter);
-    }
+        //profilesList.setAdapter(arrayAdapter);
+    }*/
 
 }

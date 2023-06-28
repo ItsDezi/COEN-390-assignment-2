@@ -24,18 +24,13 @@
         >
     </androidx.appcompat.widget.Toolbar>
 
+<androidx.recyclerview.widget.RecyclerView
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:id="@+id/profileRecyclerView"
+    android:clickable="true">
 
-    <ListView
-        android:id="@+id/profilesList"
-        android:layout_width="match_parent"
-        android:layout_height="655dp"
-        android:divider="@color/black"
-        android:dividerHeight="1dp"
-        tools:layout_editor_absoluteY="107dp"
-        app:layout_constraintBottom_toBottomOf="parent">
-
-
-    </ListView>
+</androidx.recyclerview.widget.RecyclerView>
     </LinearLayout>
 
     <com.google.android.material.floatingactionbutton.FloatingActionButton

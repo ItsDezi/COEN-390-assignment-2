@@ -112,9 +112,9 @@ public class add_profile extends DialogFragment {
                 databaseClass db = databaseClass.getInstance(getContext());
                 db.profileDao().insertAll(new_prof);
 
-                ((MainActivity) requireActivity()).profileArray = db.profileDao().getAll().toArray(new Profile[0]);
+                //((MainActivity) requireActivity()).profileArray = db.profileDao().getAll().toArray(new Profile[0]);
                 ((MainActivity) requireActivity()).arrayAdapter.notifyDataSetChanged();
-                ((MainActivity) requireActivity()).populateList();
+                //((MainActivity) requireActivity()).populateList();
                 dismiss();
 
             }
