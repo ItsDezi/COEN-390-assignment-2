@@ -68,16 +68,13 @@ public class MainActivity extends AppCompatActivity {
                 Profile temp = profileArray[position];
                 Access new_acc = new Access(temp.ProfileKey, "Opened",tempt.getYear(), tempt.getMonthValue(),tempt.getDayOfMonth(), tempt.getHour(), tempt.getMinute(), tempt.getSecond());
                 db.accessDao().insertAll(new_acc);
-                Toast.makeText(MainActivity.this, "YAY!", Toast.LENGTH_SHORT).show();
+                //Toast.makeText(MainActivity.this, "YAY!", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
                 intent.putExtra("profileKey", temp.ProfileKey);
                 startActivity(intent);
             }
         });
-        //db.profileDao().insertAll(new Profile(0,"Bohn","Zoe",3.24, 2023, 06, 26));
-        //List profiles = db.profileDao().getAll();
 
-        //list_of_profiles = db.profileDao().getAll();
 
         toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
