@@ -17,6 +17,8 @@ import com.example.coen_390_prog_asn_2_v2.database.entity.Access;
 import com.example.coen_390_prog_asn_2_v2.database.entity.Profile;
 
 import java.time.LocalDateTime;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -107,6 +109,23 @@ public class add_profile extends DialogFragment {
                     return;
                 } else if (ID < 10000000 || ID > 99999999) {
                     Toast.makeText(getContext(), "ID must be 8 digits.", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                Pattern p = Pattern.compile("[^a-z0-9 ]", Pattern.CASE_INSENSITIVE);
+                Pattern pp = Pattern.compile("[^a-z0-9 ]", Pattern.CASE_INSENSITIVE);
+
+                Matcher nameMatcher = p.matcher(FN);
+                Matcher surnameMatcher = pp.matcher(LN);
+                boolean nameHasSpecialChar = nameMatcher.find();
+                boolean surnameHasSpecialChar = surnameMatcher.find();
+                if (nameHasSpecialChar == true)
+                {
+                    Toast.makeText(getContext(), "name and surname can not contain special characters", Toast.LENGTH_SHORT).show();
+                    return;
+                }
+                else if (surnameHasSpecialChar == true)
+                {
+                    Toast.makeText(getContext(), "name and surname can not contain special characters", Toast.LENGTH_SHORT).show();
                     return;
                 }
                 LocalDateTime temp= java.time.LocalDateTime.now();
