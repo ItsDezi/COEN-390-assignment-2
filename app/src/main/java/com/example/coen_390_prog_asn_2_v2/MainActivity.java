@@ -10,8 +10,10 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.coen_390_prog_asn_2_v2.database.databaseClass;
 import com.example.coen_390_prog_asn_2_v2.database.entity.Profile;
@@ -57,6 +59,16 @@ public class MainActivity extends AppCompatActivity {
         }
         arrayAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, formatted_data);
         profilesList.setAdapter(arrayAdapter);
+        profilesList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
+                Toast.makeText(MainActivity.this, "YAY!", Toast.LENGTH_SHORT).show();
+                Profile temp = profileArray[position];
+                Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
+                intent.putExtra("profileKey", temp.ProfileKey);
+                startActivity(intent);
+            }
+        });
         //db.profileDao().insertAll(new Profile(0,"Bohn","Zoe",3.24, 2023, 06, 26));
         //List profiles = db.profileDao().getAll();
 
@@ -79,6 +91,7 @@ public class MainActivity extends AppCompatActivity {
                 dialog.show(getSupportFragmentManager(), "addProfile");
             }
         });
+
     }
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {

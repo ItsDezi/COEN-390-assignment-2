@@ -35,4 +35,60 @@ public class Profile {
     public int creation_month;
     @ColumnInfo(name = "creation_day")
     public int creation_day;
+
+    public int getProfileKey() {
+        return ProfileKey;
+    }
+
+    public void setProfileKey(int profileKey) {
+        ProfileKey = profileKey;
+    }
+
+    public String getFirst_name() {
+        return first_name;
+    }
+
+    public void setFirst_name(String first_name) {
+        this.first_name = first_name;
+    }
+
+    public String getLast_name() {
+        return last_name;
+    }
+
+    public void setLast_name(String last_name) {
+        this.last_name = last_name;
+    }
+
+    public double getGpa() {
+        return gpa;
+    }
+
+    public void setGpa(double gpa) {
+        this.gpa = gpa;
+    }
+
+    public int getCreation_year() {
+        return creation_year;
+    }
+
+    public void setCreation_year(int creation_year) {
+        this.creation_year = creation_year;
+    }
+
+    public int getCreation_month() {
+        return creation_month;
+    }
+
+    public void setCreation_month(int creation_month) {
+        this.creation_month = creation_month;
+    }
+
+    public int getCreation_day() {
+        return creation_day;
+    }
+
+    public void setCreation_day(int creation_day) {
+        this.creation_day = creation_day;
+    }
 }
