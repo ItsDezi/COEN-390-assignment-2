@@ -111,6 +111,7 @@ public class add_profile extends DialogFragment {
                     Toast.makeText(getContext(), "ID must be 8 digits.", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                //Checking for special characters
                 Pattern p = Pattern.compile("[^a-z0-9 ]", Pattern.CASE_INSENSITIVE);
                 Pattern pp = Pattern.compile("[^a-z0-9 ]", Pattern.CASE_INSENSITIVE);
 
