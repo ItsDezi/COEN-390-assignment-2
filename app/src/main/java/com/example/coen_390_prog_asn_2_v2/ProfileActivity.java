@@ -2,6 +2,7 @@ package com.example.coen_390_prog_asn_2_v2;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.appcompat.widget.Toolbar;
 
 import android.content.Intent;
@@ -28,6 +29,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class ProfileActivity extends AppCompatActivity {
+    AppCompatButton delete;
     ArrayAdapter<String> arrayAdapter;
 
     List<Access> accessList;
@@ -53,6 +55,7 @@ public class ProfileActivity extends AppCompatActivity {
         name = findViewById(R.id.nameTV);
         creationDate = findViewById(R.id.creationDateTV);
 
+        delete = findViewById(R.id.deleteButton);
         accessListView = findViewById(R.id.accessListView);
 
         Intent intent = getIntent();
@@ -89,6 +92,17 @@ public class ProfileActivity extends AppCompatActivity {
                 startActivity(intent);
             }
         });
-    }
+        delete.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                LocalDateTime temp= java.time.LocalDateTime.now();
+                Access new_acc = new Access(Integer.valueOf(profile.ProfileKey), "Deleted",temp.getYear(), temp.getMonthValue(),temp.getDayOfMonth(), temp.getHour(), temp.getMinute(), temp.getSecond());
+                db.accessDao().insertAll(new_acc);
+                db.profileDao().delete(profile);
+                Toast.makeText(ProfileActivity.this, "Profile Deleted", Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(ProfileActivity.this, MainActivity.class);
+                startActivity(intent);
+            }
+        });    }
 
     }
