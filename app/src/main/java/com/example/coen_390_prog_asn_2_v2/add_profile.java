@@ -111,6 +111,14 @@ public class add_profile extends DialogFragment {
                     Toast.makeText(getContext(), "ID must be 8 digits.", Toast.LENGTH_SHORT).show();
                     return;
                 }
+                databaseClass db = databaseClass.getInstance(getContext());
+
+                //checking for duplicate Student ID
+                if (db.profileDao().findById(ID) != null)
+                {
+                    Toast.makeText(getContext(), "Error: duplicate student ID", Toast.LENGTH_SHORT).show();
+                    return;
+                }
                 //Checking for special characters
                 Pattern p = Pattern.compile("[^a-z0-9 ]", Pattern.CASE_INSENSITIVE);
                 Pattern pp = Pattern.compile("[^a-z0-9 ]", Pattern.CASE_INSENSITIVE);
@@ -132,7 +140,6 @@ public class add_profile extends DialogFragment {
                 LocalDateTime temp= java.time.LocalDateTime.now();
                 Profile new_prof = new Profile(Integer.valueOf(ID), FN, LN, GPA, temp.getYear(), temp.getMonthValue(),temp.getDayOfMonth(), temp.getHour(), temp.getMinute());
                 Access new_acc = new Access(Integer.valueOf(ID), "Created",temp.getYear(), temp.getMonthValue(),temp.getDayOfMonth(), temp.getHour(), temp.getMinute(), temp.getSecond());
-                databaseClass db = databaseClass.getInstance(getContext());
                 db.profileDao().insertAll(new_prof);
                 db.accessDao().insertAll(new_acc);
                 ((MainActivity) requireActivity()).profileArray = db.profileDao().getAll().toArray(new Profile[0]);
