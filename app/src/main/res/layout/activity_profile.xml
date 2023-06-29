@@ -58,6 +58,26 @@
         android:layout_height="wrap_content">
 
     </TextView>
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:id="@+id/accessHistoryHeaderTV"
+        android:textStyle="bold"
+        android:text="Access History">
+
+    </TextView>
+
+    <ListView
+        android:id="@+id/accessListView"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:clickable="false"
+        android:divider="@color/black"
+        android:dividerHeight="1dp"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+
+    </ListView>
 </LinearLayout>
 
 

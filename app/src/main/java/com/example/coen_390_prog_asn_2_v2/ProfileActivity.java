@@ -17,13 +17,20 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.coen_390_prog_asn_2_v2.database.databaseClass;
+import com.example.coen_390_prog_asn_2_v2.database.entity.Access;
 import com.example.coen_390_prog_asn_2_v2.database.entity.Profile;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 
 public class ProfileActivity extends AppCompatActivity {
+    ArrayAdapter<String> arrayAdapter;
+
+    List<Access> accessList;
+    ListView accessListView;
     Toolbar toolbar;
     TextView surname;
     TextView name;
@@ -31,6 +38,7 @@ public class ProfileActivity extends AppCompatActivity {
     TextView gpa;
     TextView creationDate;
     Profile profile;
+    Access[] accessArray;
     Profile[] profileArray;
     List<Profile> list_of_profiles;
     @Override
@@ -44,9 +52,13 @@ public class ProfileActivity extends AppCompatActivity {
         name = findViewById(R.id.nameTV);
         creationDate = findViewById(R.id.creationDateTV);
 
+        accessListView = findViewById(R.id.accessListView);
+
         Intent intent = getIntent();
         int profileKeyInt = intent.getIntExtra("profileKey",-1);
         databaseClass db = databaseClass.getInstance(getApplicationContext());
+        accessList = db.accessDao().findById(profileKeyInt);
+        accessArray = db.accessDao().findById(profileKeyInt).toArray(new Access[0]);
         profileArray = db.profileDao().getAll().toArray(new Profile[0]);
         profile = db.profileDao().findById(profileKeyInt);
         surname.setText("Surname: " + profile.last_name);
@@ -54,13 +66,22 @@ public class ProfileActivity extends AppCompatActivity {
         profileKey.setText("ID: " + String.valueOf(profile.ProfileKey));
         gpa.setText("GPA: " + String.valueOf(profile.gpa));
         creationDate.setText("Profile Created: " + profile.getCreation_year() + "-" + profile.getCreation_month() + "-" + profile.getCreation_day() + " @ " + profile.getCreation_hour() + ":" + profile.getCreation_minute());
-
-
+        String[] formatted_data = new String[accessArray.length];
+        String[] formatted_data2 = new String[accessArray.length];
+        for (int i = 0; i < accessArray.length; i++) {
+            formatted_data[i] =  accessArray[i].year + "-" + accessArray[i].month + "-" + accessArray[i].day + " @ " + accessArray[i].hour + ":" + accessArray[i].minute + ":" + accessArray[i].second + " " + accessArray[i].access_type;
+        }
+        List<String> tempList = Arrays.asList(formatted_data);
+        Collections.reverse(tempList);
+        formatted_data = tempList.toArray(new String[0]);
+        arrayAdapter = new ArrayAdapter<String>(this,android.R.layout.simple_list_item_1, formatted_data);
+        accessListView.setAdapter(arrayAdapter);
         toolbar = (Toolbar) findViewById(R.id.profileToolbar);
         setSupportActionBar(toolbar);
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
                 Intent intent = new Intent(ProfileActivity.this, MainActivity.class);
                 startActivity(intent);
             }

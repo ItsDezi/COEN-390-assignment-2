@@ -16,10 +16,12 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.coen_390_prog_asn_2_v2.database.databaseClass;
+import com.example.coen_390_prog_asn_2_v2.database.entity.Access;
 import com.example.coen_390_prog_asn_2_v2.database.entity.Profile;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
@@ -62,8 +64,11 @@ public class MainActivity extends AppCompatActivity {
         profilesList.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
-                Toast.makeText(MainActivity.this, "YAY!", Toast.LENGTH_SHORT).show();
+                LocalDateTime tempt= java.time.LocalDateTime.now();
                 Profile temp = profileArray[position];
+                Access new_acc = new Access(temp.ProfileKey, "Opened",tempt.getYear(), tempt.getMonthValue(),tempt.getDayOfMonth(), tempt.getHour(), tempt.getMinute(), tempt.getSecond());
+                db.accessDao().insertAll(new_acc);
+                Toast.makeText(MainActivity.this, "YAY!", Toast.LENGTH_SHORT).show();
                 Intent intent = new Intent(MainActivity.this, ProfileActivity.class);
                 intent.putExtra("profileKey", temp.ProfileKey);
                 startActivity(intent);

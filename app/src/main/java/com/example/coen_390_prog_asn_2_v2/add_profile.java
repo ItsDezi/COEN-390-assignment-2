@@ -13,6 +13,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.coen_390_prog_asn_2_v2.database.databaseClass;
+import com.example.coen_390_prog_asn_2_v2.database.entity.Access;
 import com.example.coen_390_prog_asn_2_v2.database.entity.Profile;
 
 import java.time.LocalDateTime;
@@ -110,10 +111,10 @@ public class add_profile extends DialogFragment {
                 }
                 LocalDateTime temp= java.time.LocalDateTime.now();
                 Profile new_prof = new Profile(Integer.valueOf(ID), FN, LN, GPA, temp.getYear(), temp.getMonthValue(),temp.getDayOfMonth(), temp.getHour(), temp.getMinute());
-
+                Access new_acc = new Access(Integer.valueOf(ID), "Created",temp.getYear(), temp.getMonthValue(),temp.getDayOfMonth(), temp.getHour(), temp.getMinute(), temp.getSecond());
                 databaseClass db = databaseClass.getInstance(getContext());
                 db.profileDao().insertAll(new_prof);
-
+                db.accessDao().insertAll(new_acc);
                 ((MainActivity) requireActivity()).profileArray = db.profileDao().getAll().toArray(new Profile[0]);
                 ((MainActivity) requireActivity()).arrayAdapter.notifyDataSetChanged();
                 ((MainActivity) requireActivity()).populateList();
