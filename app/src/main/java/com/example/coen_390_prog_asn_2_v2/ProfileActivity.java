@@ -22,6 +22,7 @@ import com.example.coen_390_prog_asn_2_v2.database.entity.Profile;
 import com.google.android.material.button.MaterialButton;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.time.LocalDateTime;
 import java.util.Arrays;
 import java.util.Collections;
 import java.util.List;
@@ -81,7 +82,9 @@ public class ProfileActivity extends AppCompatActivity {
         toolbar.setNavigationOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
+                LocalDateTime temp= java.time.LocalDateTime.now();
+                Access new_acc = new Access(Integer.valueOf(profile.ProfileKey), "Closed",temp.getYear(), temp.getMonthValue(),temp.getDayOfMonth(), temp.getHour(), temp.getMinute(), temp.getSecond());
+                db.accessDao().insertAll(new_acc);
                 Intent intent = new Intent(ProfileActivity.this, MainActivity.class);
                 startActivity(intent);
             }
