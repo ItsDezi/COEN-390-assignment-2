@@ -94,7 +94,7 @@ public class add_profile extends DialogFragment {
         save.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String ID = student_id.getText().toString();
+                int ID = Integer.valueOf(student_id.getText().toString());
                 String FN = first_name.getText().toString();
                 String LN = last_name.getText().toString();
                 double GPA = Double.valueOf(gpa.getText().toString());
@@ -105,7 +105,7 @@ public class add_profile extends DialogFragment {
                 } else if (GPA < 0 || GPA > 4.3) {
                     Toast.makeText(getContext(), "GPA must be a value between 0 and 4.3.", Toast.LENGTH_SHORT).show();
                     return;
-                } else if (!idLengthCheck(ID)) {
+                } else if (ID < 10000000 || ID > 99999999) {
                     Toast.makeText(getContext(), "ID must be 8 digits.", Toast.LENGTH_SHORT).show();
                     return;
                 }
