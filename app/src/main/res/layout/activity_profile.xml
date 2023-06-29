@@ -17,13 +17,15 @@
         android:theme="@style/ThemeOverlay.AppCompat.ActionBar"
         android:background="@color/material_dynamic_secondary70"
         app:layout_constraintTop_toTopOf="parent"
-        app:title="Profile Activity">
+        app:title="Profile Activity"
+        app:navigationIcon="?attr/homeAsUpIndicator">
     </androidx.appcompat.widget.Toolbar>
 
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="User Profile">
+        android:text="User Profile"
+        android:textStyle="bold">
 
     </TextView>
     <TextView

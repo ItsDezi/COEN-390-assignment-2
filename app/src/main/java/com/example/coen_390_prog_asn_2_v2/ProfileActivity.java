@@ -49,11 +49,11 @@ public class ProfileActivity extends AppCompatActivity {
         databaseClass db = databaseClass.getInstance(getApplicationContext());
         profileArray = db.profileDao().getAll().toArray(new Profile[0]);
         profile = db.profileDao().findById(profileKeyInt);
-        surname.setText(profile.last_name);
-        name.setText(profile.first_name);
-        profileKey.setText(String.valueOf(profile.ProfileKey));
-        gpa.setText(String.valueOf(profile.gpa));
-        creationDate.setText(profile.getCreation_year() + "-" + profile.getCreation_month() + "-" + profile.getCreation_day());
+        surname.setText("Surname: " + profile.last_name);
+        name.setText("Name: " + profile.first_name);
+        profileKey.setText("ID: " + String.valueOf(profile.ProfileKey));
+        gpa.setText("GPA: " + String.valueOf(profile.gpa));
+        creationDate.setText("Profile Created: " + profile.getCreation_year() + "-" + profile.getCreation_month() + "-" + profile.getCreation_day() + " @ " + profile.getCreation_hour() + ":" + profile.getCreation_minute());
 
 
         toolbar = (Toolbar) findViewById(R.id.profileToolbar);

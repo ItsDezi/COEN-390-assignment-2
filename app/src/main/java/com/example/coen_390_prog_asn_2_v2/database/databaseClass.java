@@ -13,7 +13,7 @@ import com.example.coen_390_prog_asn_2_v2.database.entity.Profile;
 public abstract class databaseClass extends RoomDatabase
 {
     private static volatile databaseClass instance;
-    private static final String DB_NAME = "database";
+    private static final String DB_NAME = "profileDatabase";
     protected databaseClass(){}
     private static databaseClass create(Context context) {
         return Room.databaseBuilder(context, databaseClass.class, DB_NAME).allowMainThreadQueries().build();//allow main thread queries is good for small uses only

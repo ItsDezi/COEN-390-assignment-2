@@ -15,6 +15,8 @@ import android.widget.Toast;
 import com.example.coen_390_prog_asn_2_v2.database.databaseClass;
 import com.example.coen_390_prog_asn_2_v2.database.entity.Profile;
 
+import java.time.LocalDateTime;
+
 /**
  * A simple {@link Fragment} subclass.
  * Use the {@link add_profile#newInstance} factory method to
@@ -106,8 +108,8 @@ public class add_profile extends DialogFragment {
                     Toast.makeText(getContext(), "ID must be 8 digits.", Toast.LENGTH_SHORT).show();
                     return;
                 }
-
-                Profile new_prof = new Profile(Integer.valueOf(ID), FN, LN, GPA);
+                LocalDateTime temp= java.time.LocalDateTime.now();
+                Profile new_prof = new Profile(Integer.valueOf(ID), FN, LN, GPA, temp.getYear(), temp.getMonthValue(),temp.getDayOfMonth(), temp.getHour(), temp.getMinute());
 
                 databaseClass db = databaseClass.getInstance(getContext());
                 db.profileDao().insertAll(new_prof);
